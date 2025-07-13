@@ -9,36 +9,54 @@ import remarkToc from "remark-toc";
 import config from "./src/config/config.json";
 import icon from "astro-icon";
 import partytown from "@astrojs/partytown";
-
 import vercel from "@astrojs/vercel/serverless";
 
-// https://astro.build/config
 export default defineConfig({
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    runtime: 'edge',  // 使用边缘运行时
+    // 或者使用：
+    // runtime: 'nodejs20.x'
+
+    // 可选：添加额外配置
+    functions: {
+      // 确保渲染函数有足够资源
+      memory: 1024,
+      maxDuration: 15
+    },
+    webAnalytics: {
+      enabled: true
+    }
+  }),
   site: config.site.base_url,
   base: config.site.base_path ? config.site.base_path : "/",
   trailingSlash: config.site.trailing_slash ? "always" : "never",
   image: {
     service: squooshImageService()
   },
-  integrations: [react(), sitemap(), tailwind({
-    config: {
-      applyBaseStyles: false
-    }
-  }), AutoImport({
-    imports: []
-  }), mdx(), icon({
-    include: {
-      tabler: ['*']
-    }
-  }), partytown({
-    config: {
-      debug: true,
-      forward: ['dataLayer.push']
-    }
-  })
-  // solidJs()
+  integrations: [
+    react(),
+    sitemap(),
+    tailwind({
+      config: {
+        applyBaseStyles: false
+      }
+    }),
+    AutoImport({
+      imports: []
+    }),
+    mdx(),
+    icon({
+      include: {
+        tabler: ['*']
+      }
+    }),
+    partytown({
+      config: {
+        debug: true,
+        forward: ['dataLayer.push']
+      }
+    })
   ],
   markdown: {
     remarkPlugins: [remarkToc, [remarkCollapse, {
