@@ -34,6 +34,9 @@ export default defineConfig({
   image: {
     service: squooshImageService()
   },
+  devToolbar: {
+    enabled: false
+  },
   integrations: [
     react(),
     sitemap(),
