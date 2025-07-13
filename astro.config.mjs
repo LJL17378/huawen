@@ -14,9 +14,9 @@ import vercel from "@astrojs/vercel/serverless";
 export default defineConfig({
   output: 'server',
   adapter: vercel({
-    runtime: 'edge',  // 使用边缘运行时
+    // runtime: 'edge',  // 使用边缘运行时
     // 或者使用：
-    // runtime: 'nodejs20.x'
+    runtime: 'nodejs20.x'
 
     // 可选：添加额外配置
     functions: {
