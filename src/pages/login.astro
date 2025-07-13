@@ -1,0 +1,151 @@
+---
+---
+
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8" />
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        background: #dbd8ff;
+        font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .login-container {
+        background: #fff url('/public/images/登录背景.png') center/cover no-repeat;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        padding: 2.5rem 2rem 2rem 2rem;
+        min-width: 320px;
+        max-width: 90vw;
+        position: relative;
+        overflow: hidden;
+      }
+      .login-container::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.391);
+        z-index: 0;
+      }
+      .login-container > * {
+        position: relative;
+        z-index: 1;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #22223b;
+        font-weight: 700;
+        letter-spacing: 2px;
+      }
+      label {
+        display: block;
+        margin-bottom: 1.2rem;
+        color: #4a4e69;
+        font-size: 1rem;
+      }
+      input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 0.6rem 0.8rem;
+        border: 1px solid #c9c9c9;
+        border-radius: 6px;
+        font-size: 1rem;
+        margin-top: 0.3rem;
+        box-sizing: border-box;
+        background: #f8f8fa;
+      }
+      button {
+        width: 100%;
+        padding: 0.7rem;
+        background: #8F86BA;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        transition: background 0.2s;
+      }
+      button:hover {
+        background: #7466b9;
+      }
+      #loginMsg {
+        margin-top: 1rem;
+        color: #e63946;
+        text-align: center;
+        min-height: 1.5em;
+      }
+      .register-link {
+        display: block;
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #4f8cff;
+        text-decoration: none;
+        font-size: 1rem;
+      }
+      .register-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="position:fixed;left:0;top:10vh;object-fit:cover;">
+        <img style="height:60vh" src='/public/images/鸟.png' alt="">
+    </div>
+    <div style="position:fixed;bottom:0;object-fit:cover;">
+        <img style="width:60vw" src='/public/images/桥.png' alt="">
+    </div>
+    <div class="login-container">
+      <h1>登录</h1>
+      <form id="loginForm">
+        <label>手机号：<input type="text" name="phone" required autocomplete="username" /></label>
+        <label>密码：<input type="password" name="password" required autocomplete="current-password" /></label>
+        <button type="submit">登录</button>
+      </form>
+      <div id="loginMsg"></div>
+    </div>
+    <script type="module">
+      const form = document.getElementById('loginForm');
+      const msg = document.getElementById('loginMsg');
+      function setCookie(name, value, days) {
+        let expires = '';
+        if (days) {
+          const date = new Date();
+          date.setTime(date.getTime() + (days*24*60*60*1000));
+          expires = '; expires=' + date.toUTCString();
+        }
+        document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/; SameSite=Strict';
+      }
+      form.onsubmit = async (e) => {
+        e.preventDefault();
+        const phone = form.phone.value;
+        const password = form.password.value;
+        const res = await fetch('https://poem.oumi.xn--6qq986b3xl/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, password })
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          localStorage.setItem('token', data.data.token);
+          // 存储isAdmin字段
+          localStorage.setItem('isAdmin', data.data.user && data.data.user.isAdmin ? 'true' : 'false');
+          setCookie('token', data.data.token, 7); // 写入cookie，7天有效
+          msg.style.color = '#43aa8b';
+          msg.innerText = '登录成功，正在跳转...';
+          setTimeout(() => { window.location.href = '/'; }, 1000);
+        } else {
+          msg.style.color = '#e63946';
+          msg.innerText = data.message || '登录失败';
+        }
+      };
+    </script>
+  </body>
+</html>

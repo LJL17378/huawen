@@ -1,0 +1,120 @@
+---
+---
+
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8" />
+    <title>批量导入用户</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <style>
+      body {
+        background: #f7fafc;
+        font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .import-container {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        padding: 2.5rem 2rem 2rem 2rem;
+        min-width: 340px;
+        max-width: 95vw;
+        position: relative;
+        overflow: hidden;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #22223b;
+        font-weight: 700;
+        letter-spacing: 2px;
+      }
+      input[type="file"] {
+        margin-bottom: 1.5rem;
+      }
+      #importResult {
+        margin-top: 2rem;
+        font-size: 1rem;
+        color: #333;
+        max-height: 300px;
+        overflow-y: auto;
+        background: #f8f8fa;
+        border-radius: 8px;
+        padding: 1em;
+      }
+      .success { color: #43aa8b; }
+      .fail { color: #e63946; }
+    </style>
+  </head>
+  <body>
+    <div class="import-container">
+      <h1>批量导入用户</h1>
+      <input type="file" id="excelFile" accept=".xlsx,.xls" />
+      <button id="importBtn">开始导入</button>
+      <div id="importResult"></div>
+      <div style="margin-top:1.5em;color:#888;font-size:0.95em">
+        <b>模板说明：</b>Excel需包含表头，字段：手机号（phone）、密码（password）、是否管理员（isAdmin，true/false）
+      </div>
+    </div>
+    <script type="module">
+      const excelFile = document.getElementById('excelFile');
+      const importBtn = document.getElementById('importBtn');
+      const resultDiv = document.getElementById('importResult');
+      let users = [];
+      excelFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const data = new Uint8Array(evt.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheet = workbook.Sheets[workbook.SheetNames[0]];
+          users = XLSX.utils.sheet_to_json(sheet);
+          resultDiv.innerHTML = `共读取到 <b>${users.length}</b> 条用户数据。`;
+        };
+        reader.readAsArrayBuffer(file);
+      });
+      importBtn.onclick = async () => {
+        if (!users.length) {
+          resultDiv.innerHTML = '<span class="fail">请先选择Excel文件！</span>';
+          return;
+        }
+        resultDiv.innerHTML = '正在导入...';
+        let results = [];
+        for (let i = 0; i < users.length; i++) {
+          const u = users[i];
+          const body = {
+            phone: u.phone ? String(u.phone).trim() : '',
+            password: u.password ? String(u.password) : '',
+            isAdmin: String(u.isAdmin).toLowerCase() === 'true'
+          };
+          if (!body.phone || !body.password) {
+            results.push(`<div class="fail">[${i+1}] 缺少手机号或密码</div>`);
+            continue;
+          }
+          try {
+            const res = await fetch('https://poem.oumi.xn--6qq986b3xl/api/auth/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            if (res.ok && data.status === 'success') {
+              results.push(`<div class="success">[${i+1}] ${body.phone} 注册成功</div>`);
+            } else {
+              results.push(`<div class="fail">[${i+1}] ${body.phone} 失败：${data.message || '未知错误'}</div>`);
+            }
+          } catch (e) {
+            results.push(`<div class="fail">[${i+1}] ${body.phone} 网络错误</div>`);
+          }
+        }
+        resultDiv.innerHTML = results.join('');
+      };
+    </script>
+  </body>
+</html>

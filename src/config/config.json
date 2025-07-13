@@ -1,0 +1,30 @@
+{
+  "site": {
+    "title": "朝歌华文",
+    "base_url": "https://haitang.app",
+    "base_path": "/",
+    "trailing_slash": false,
+    "favicon": "/images/logo.png",
+    "logo": "/images/logo.png",
+    "logo_darkmode": "/images/logo-darkmode.png",
+    "logo_width": "30",
+    "logo_height": "30",
+    "logo_text": "朝歌华文"
+  },
+
+  "settings": {
+    "search": true,
+    "sticky_header": true,
+    "theme_switcher": true,
+    "default_theme": "system",
+    "pagination": 2,
+    "summary_length": 200,
+    "blog_folder": "blog"
+  },
+
+  "metadata": {
+    "meta_author": "朝歌华文",
+    "meta_image": "/images/screenshot.png",
+    "meta_description": "朝歌华文，古诗词的数字桃源"
+  }
+}
