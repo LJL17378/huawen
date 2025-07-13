@@ -16,7 +16,7 @@ export default defineConfig({
   adapter: vercel({
     // runtime: 'edge',  // 使用边缘运行时
     // 或者使用：
-    runtime: 'nodejs20.x'
+    runtime: 'nodejs20.x',
 
     // 可选：添加额外配置
     functions: {
