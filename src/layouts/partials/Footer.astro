@@ -2,6 +2,7 @@
 import BackToTop from "@/components/BackToTop.astro";
 import Logo from "@/components/Logo.astro";
 import { Icon } from "astro-icon/components";
+import { openInvitation } from '@/helpers/InvitationModal';
 
 interface Link {
   text?: string;
@@ -30,8 +31,10 @@ const {
   footNote = "",
   theme = "light",
 } = Astro.props;
+  if (typeof window !== 'undefined') {
+    window.openInvitation = openInvitation
+  }
 ---
-
 <footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-gray-800 not-prose']}>
   
   <!-- Footer Background -->
@@ -49,7 +52,7 @@ const {
         <div class="mt-6">
               <a
                 class="animated-underline py-1 mr-2 text-sm"
-                data-invitation-trigger
+                onclick="window.openInvitation && window.openInvitation()"
               >联系我们</a>
         </div>
       </div>

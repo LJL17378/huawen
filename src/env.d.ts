@@ -8,6 +8,9 @@ interface Window {
   openInvitationModal: () => void;
   closeInvitationModal: () => void;
   setupInvitationModal: () => void;
+  openSearch: () => void;
+  openInvitation: () => void;
+  authModal: (trigger: Element) => void;
   
   // 内部状态标识
   __invitationModalInitialized?: boolean;

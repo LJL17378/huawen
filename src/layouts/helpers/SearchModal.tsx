@@ -67,6 +67,7 @@ const SearchModal = () => {
       "[data-search-trigger]",
     );
 
+
     // search modal open
     searchModalTriggers.forEach((button) => {
       button.addEventListener("click", function () {
@@ -250,3 +251,9 @@ const SearchModal = () => {
 };
 
 export default SearchModal;
+export const openSearch = () => {
+      const searchModal = document.getElementById("searchModal");
+       const searchInput = document.getElementById("searchInput");
+        searchModal!.classList.add("show");
+        searchInput!.focus();
+    }

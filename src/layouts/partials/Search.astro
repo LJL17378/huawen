@@ -1,0 +1,23 @@
+---
+import { Icon } from "astro-icon/components";
+---
+<script>
+// 将函数挂载到全局对象
+import('@/helpers/InvitationModal').then(module => {
+      window.authModal = module.authModal;
+      window.openInvitation = module.openInvitation;
+    });
+import('@/helpers/SearchModal').then(module => {
+      window.openSearch = module.openSearch;
+    });
+</script>
+<span
+                class="cursor-pointer rounded-lg text-sm p-2.5 inline-flex items-center hover:bg-gray-200 dark:hover:bg-gray-800"
+                aria-label="Search"
+                onclick="openSearch()"
+              >
+                <Icon
+                  name="tabler:search"
+                  class="w-6 h-6 md:w-5 md:h-5 md:inline-block"
+                />
+              </span>

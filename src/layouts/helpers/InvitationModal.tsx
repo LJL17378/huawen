@@ -20,6 +20,10 @@ const WeChatIcon = () => (
   </svg>
 );
 
+// 模块级变量存储函数引用
+let globalOpenModal: (() => void) | null = null;
+let globalAuthModal: ((trigger: Element) => void) | null = null;
+
 const InvitationModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   
@@ -61,12 +65,22 @@ const InvitationModal = () => {
 
   // 暴露全局函数
   useEffect(() => {
+    // 挂载到window对象
     (window as any).openInvitationModal = openModal;
     (window as any).closeInvitationModal = closeModal;
+    
+    // 设置模块级引用
+    globalOpenModal = openModal;
+    globalAuthModal = authModal;
 
     return () => {
+      // 清理window对象
       delete (window as any).openInvitationModal;
       delete (window as any).closeInvitationModal;
+      
+      // 清理模块级引用
+      globalOpenModal = null;
+      globalAuthModal = null;
     };
   }, []);
 
@@ -85,35 +99,20 @@ const InvitationModal = () => {
     };
   }, []);
 
-    useEffect(() => {
-        const modalAuthTriggers = document.querySelectorAll("[modal-auth-trigger]");
-        modalAuthTriggers.forEach((trigger) => {
-            trigger.addEventListener("click", ()=>authModal(trigger));
-        });
-        return () => {
-            modalAuthTriggers.forEach((trigger) => {
-                trigger.removeEventListener("click", ()=>authModal(trigger));
-            });
-        };
-    },[])
-
-    const authModal = (trigger: Element) => {
-        const href = trigger.getAttribute("href");
-        const PUBLIC_PATHS = [
-    '/', '/login', '/register', '/404', '/500', '/public', '/favicon.svg', '/robots.txt'
-  ];
-  if(href){
-    if (!PUBLIC_PATHS.some(p => href === p || href?.startsWith(p + '/'))) {
-        if (!document.cookie.includes('token=')) {
-         openModal();
-        }else{
-            window.location.href = href;
-        }
-    }else{
-        window.location.href = href;
-    }
-  }
-}
+  // 认证模态触发器绑定
+  useEffect(() => {
+    const modalAuthTriggers = document.querySelectorAll("[modal-auth-trigger]");
+    
+    modalAuthTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", () => authModal(trigger));
+    });
+    
+    return () => {
+      modalAuthTriggers.forEach((trigger) => {
+        trigger.removeEventListener("click", () => authModal(trigger));
+      });
+    };
+  }, []);
 
   if (!isOpen) return null;
 
@@ -123,7 +122,7 @@ const InvitationModal = () => {
       style={{ zIndex: 100 }} 
       className="fixed inset-0 transition-all duration-300"
     >
-      {/* 遮罩层 - 使用React事件处理点击 */}
+      {/* 遮罩层 */}
       <div 
         id="invitationModalOverlay" 
         className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300"
@@ -146,7 +145,7 @@ const InvitationModal = () => {
             </button>
           </div>
           
-          {/* 主要内容 - 可滚动 */}
+          {/* 主要内容 */}
           <div className="bg-[#f9f7f0] flex-1 overflow-y-auto border-l-4 sm:border-l-8 border-r-4 sm:border-r-8 border-amber-800/20">
             <div className="p-4 sm:p-6 md:p-8 relative">
               {/* 背景纹理 */}
@@ -195,23 +194,66 @@ const InvitationModal = () => {
               </div>
             </div>
           </div>
-          
-          {/* 底部按钮 */}
-          {/* <div className="bg-amber-800/5 py-3 sm:py-5 px-4 sm:px-6 border-t border-amber-800/20 text-center flex-shrink-0">
-            <button 
-              onClick={closeModal}
-              className="bg-gradient-to-r from-amber-800 to-amber-900 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-2 sm:py-3 px-6 sm:px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center mx-auto text-sm sm:text-base transform hover:-translate-y-0.5"
-            >
-              <div className="scale-75 sm:scale-100">
-                <WeChatIcon />
-              </div>
-              <span className="ml-2">立即关注</span>
-            </button>
-          </div> */}
         </div>
       </div>
     </div>
   );
+};
+
+// 导出的函数实现
+export const openInvitation = () => {
+  // 优先使用模块级引用
+  if (globalOpenModal) {
+    globalOpenModal();
+    return;
+  }
+  
+  // 回退到window对象上的引用
+  if (typeof window !== 'undefined' && (window as any).openInvitationModal) {
+    (window as any).openInvitationModal();
+    return;
+  }
+  
+  // 如果都没有，打印警告
+  console.warn("openInvitationModal function is not available");
+};
+
+export const authModal = (trigger: Element) => {
+  // 优先使用模块级引用
+  if (globalAuthModal) {
+    globalAuthModal(trigger);
+    return;
+  }
+  
+  // 回退逻辑
+  const href = trigger.getAttribute("href");
+  const PUBLIC_PATHS = [
+    '/', '/login', '/register', '/404', '/500', '/public', '/favicon.svg', '/robots.txt'
+  ];
+  
+  if (href) {
+    const isPublicPath = PUBLIC_PATHS.some(p => 
+      href === p || href.startsWith(p + '/')
+    );
+    
+    if (!isPublicPath && !document.cookie.includes('token=')) {
+      if (globalOpenModal) {
+    globalOpenModal();
+    return;
+  }
+  
+  // 回退到window对象上的引用
+  if (typeof window !== 'undefined' && (window as any).openInvitationModal) {
+    (window as any).openInvitationModal();
+    return;
+  }
+  
+  // 如果都没有，打印警告
+  console.warn("openInvitationModal function is not available");
+    } else {
+      window.location.href = href;
+    }
+  }
 };
 
 export default InvitationModal;
