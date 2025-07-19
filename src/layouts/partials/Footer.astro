@@ -47,15 +47,10 @@ const {
           <Logo />
         </div>
         <div class="mt-6">
-          {
-            secondaryLinks.map(({ text, href }) => (
               <a
                 class="animated-underline py-1 mr-2 text-sm"
-                href={href}
-                set:html={text}
-              />
-            ))
-          }
+                data-invitation-trigger
+              >联系我们</a>
         </div>
       </div>
 
@@ -110,7 +105,7 @@ const {
       }
 
       <div class="copyright">版权所有 © 朝歌华文
-    <a href="" target="_blank" style="color: rgb(91,91,91)">鲁ICP备2024129537号-2</a> 建设维护：OUMI项目部</div>
+    <a href="http://beian.miit.gov.cn" class="hover:text-purple-400" target="_blank" style="color: rgb(91,91,91)">鲁ICP备2024129537号-4</a> 建设维护：OUMI项目部</div>
     </div>
     </div>
 
