@@ -28,8 +28,19 @@ export default defineConfig({
       enabled: true
     }
   }),
+vite: {
+    server: {
+      host: '0.0.0.0', // 允许外部访问
+      port: 4321,
+      allowedHosts: [
+        'oumioumi.cn',
+        'localhost',
+        '127.0.0.1'
+      ]
+    }
+  },
   site: config.site.base_url,
-  base: config.site.base_path ? config.site.base_path : "/",
+  base: "/",
   trailingSlash: config.site.trailing_slash ? "always" : "never",
   image: {
     service: squooshImageService()
