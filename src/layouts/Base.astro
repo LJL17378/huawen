@@ -8,6 +8,7 @@ import Header from "@/partials/Header.astro";
 import { footerConfig } from "@/config/FooterConfig";
 import { headerConfig } from "@/config/HeaderConfig";
 import SearchModal from "@/layouts/helpers/SearchModal";
+import InvitationModal from "@/layouts/helpers/InvitationModal";
 import BasicScripts from "@/layouts/BasicScripts.astro";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -24,8 +25,6 @@ export interface Props {
 // destructure frontmatters
 const { title, meta_title, description, image, noindex, canonical } =
   Astro.props;
-
-// console.log('Base meta:', title, meta_title, description, image, noindex, canonical);
 ---
 
 <!doctype html>
@@ -39,7 +38,11 @@ const { title, meta_title, description, image, noindex, canonical } =
       noindex={noindex}
       canonical={canonical}
     />
+    
+    <!-- 初始化脚本 -->
+    <script type="module" src="/src/pages/init-invite-modal.js"></script>
   </head>
+  
   <body>
     <TwSizeIndicator />
 
@@ -54,6 +57,9 @@ const { title, meta_title, description, image, noindex, canonical } =
     />
 
     <SearchModal client:visible />
+    <InvitationModal client:load />
+    <!-- 邀请函模态框容器 -->
+    <div id="invitation-modal-container"></div>
 
     <main id="main-content">
       <slot />

@@ -43,9 +43,10 @@ export const footerConfig = {
         },
     ],
     secondaryLinks: [
-        { text: '服务条款', href: '/terms-of-service' },
-        { text: '隐私政策', href: '/privacy-policy' },
-        { text: '站点地图', href: '/sitemap-index.xml' },
+        { text: '联系我们', href: '/terms-of-service' },
+        // { text: '服务条款', href: '/terms-of-service' },
+        // { text: '隐私政策', href: '/privacy-policy' },
+        // { text: '站点地图', href: '/sitemap-index.xml' },
     ],
     socialLinks: [
         // { ariaLabel: 'X', icon: 'tabler:brand-x', href: 'https://twitter.com/javayhu' },

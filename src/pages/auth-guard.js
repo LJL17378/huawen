@@ -8,7 +8,7 @@
   if (!PUBLIC_PATHS.some(p => path === p || path.startsWith(p + '/'))) {
     console.log(document.cookie)
     if (!document.cookie.includes('token=')) {
-      window.location.href = '/login';
+      window.location.replace("/login");
     }
   }
 })();

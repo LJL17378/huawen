@@ -110,6 +110,7 @@
         <button type="submit">登录</button>
       </form>
       <div id="loginMsg"></div>
+      <div class="p-4 rounded-xl bg-[#dcfce7a9] border-2 border-green-500">来“山软华文”服务号后台私信<strong>免费</strong>获得股东账号。</div>
     </div>
     <script type="module">
       const form = document.getElementById('loginForm');
@@ -127,7 +128,7 @@
         e.preventDefault();
         const phone = form.phone.value;
         const password = form.password.value;
-        const res = await fetch('https://poem.oumi.xn--6qq986b3xl/api/auth/login', {
+        const res = await fetch('https://oumioumi.cn/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ phone, password })
