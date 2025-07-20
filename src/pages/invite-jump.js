@@ -16,9 +16,9 @@
     return;
   }
 
-  // 如果没有 token 或者鉴权未通过，跳转到登录页面
+  // 如果没有 to 或者鉴权未通过，跳转到邀请函
   if (!document.cookie.includes('token=') || !to) {
-    return
+    window.location.replace("/invitation");
   } else {
     // 如果有 to 参数，且鉴权通过，跳转到 to 指定的路径
     window.location.replace(to);

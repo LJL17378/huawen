@@ -1,0 +1,23 @@
+---
+    // Astro Frontmatter: 这里可以放置JavaScript/TypeScript代码
+    // 由于这是一个纯静态页面，不需要React的useState, useEffect等hook
+    // 也不需要任何与弹窗控制相关的全局函数或事件监听器。
+
+    // 移除了SVG图标的React组件定义，因为它们在Astro的frontmatter中不被支持
+    // 且在最终的静态页面中，CloseIcon不再使用，QrCodeIcon和WeChatIcon也未被实际渲染。
+export const prerender = true
+---
+    <html lang="zh">
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title></title>
+      <!-- 假设你的 Astro 项目已经配置了 Tailwind CSS -->
+      <!-- 如果没有，你可能需要手动引入 Tailwind CSS 或配置 Astro 来处理它 -->
+    </head>
+    <script type="module" src="/src/pages/invite-jump.js"></script>
+
+    <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+      
+    </body>
+    </html>

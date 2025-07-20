@@ -139,6 +139,7 @@
           // 存储isAdmin字段
           localStorage.setItem('isAdmin', data.data.user && data.data.user.isAdmin ? 'true' : 'false');
           setCookie('token', data.data.token, 7); // 写入cookie，7天有效
+          Astro.cookies.set('token', data.data.token)
           msg.style.color = '#43aa8b';
           msg.innerText = '登录成功，正在跳转...';
           setTimeout(() => { window.location.href = '/'; }, 1000);

@@ -5,6 +5,7 @@
 
     // 移除了SVG图标的React组件定义，因为它们在Astro的frontmatter中不被支持
     // 且在最终的静态页面中，CloseIcon不再使用，QrCodeIcon和WeChatIcon也未被实际渲染。
+export const prerender = true
 ---
     <html lang="zh">
     <head>
@@ -14,8 +15,6 @@
       <!-- 假设你的 Astro 项目已经配置了 Tailwind CSS -->
       <!-- 如果没有，你可能需要手动引入 Tailwind CSS 或配置 Astro 来处理它 -->
     </head>
-    <script type="module" src="/src/pages/invite-jump.js"></script>
-
     <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
       {/* 核心内容容器，移除了弹窗相关的定位和动画类 */}
       <div class="w-full max-h-[95vh] rounded-xl overflow-hidden shadow-2xl flex flex-col bg-white">
