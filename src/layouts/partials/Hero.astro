@@ -31,7 +31,7 @@ const hero = await getEntry("sections", "hero");
         {/* action buttons */}
         <div class="mt-10 flex flex-wrap justify-start gap-6">
           <a
-            href={hero.data.primaryButton.link}
+            href={"/buffer?to="+encodeURIComponent(hero.data.primaryButton.link)}
             class="relative flex h-12 items-center justify-center px-8 before:bg-dark dark:before:bg-darkmode-dark before:absolute before:inset-0 before:rounded-full before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
           >
             <span class="relative text-darkmode-dark dark:text-dark">
@@ -39,7 +39,7 @@ const hero = await getEntry("sections", "hero");
             </span>
           </a>
           <a
-            href={hero.data.secondaryButton.link}
+            href={"/buffer?to="+encodeURIComponent(hero.data.secondaryButton.link)}
             class="relative flex h-12 items-center justify-center px-8 before:bg-primary/10 before:bg-gradient-to-b dark:before:border-gray-700 dark:before:bg-gray-800 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
           >
             <span class="relative text-dark dark:text-darkmode-dark">

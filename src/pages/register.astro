@@ -114,7 +114,7 @@
         const phone = form.phone.value;
         const password = form.password.value;
         const isAdmin = form.isAdmin.checked;
-        const res = await fetch('https://oumioumi.cn/api/auth/register', {
+        const res = await fetch('https://poem.oumioumi.cn/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ phone, password, isAdmin })

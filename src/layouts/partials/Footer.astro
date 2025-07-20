@@ -69,7 +69,7 @@ const {
                   <li class="mb-2">
                     <a
                       class="animated-underline py-1 text-sm"
-                      href={href}
+                      href={"/buffer?to="+encodeURIComponent(href)}
                       aria-label={ariaLabel}
                       {...(href?.includes('/works/') ? {'data-astro-reload': ''} : {})}
                     >
@@ -94,7 +94,7 @@ const {
                 <a
                   class="rounded-lg text-sm p-2.5 inline-flex items-center hover:bg-gray-200 dark:hover:bg-gray-800"
                   aria-label={ariaLabel}
-                  href={href}
+                  href={"/buffer?to="+encodeURIComponent(href)}
                   target="_blank"
                 >
                   {icon && <Icon name={icon} class="w-6 h-6 md:w-5 md:h-5 md:inline-block" />}

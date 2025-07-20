@@ -110,7 +110,18 @@
         <button type="submit">登录</button>
       </form>
       <div id="loginMsg"></div>
-      <div class="p-4 rounded-xl bg-[#dcfce7a9] border-2 border-green-500">来“山软华文”服务号后台私信<strong>免费</strong>获得股东账号。</div>
+      <div class="p-4 rounded-xl bg-[#dcfce7a9] border-2 border-green-500">来“山软华文”服务号后台私信<strong>免费</strong>获得股东账号。
+        <div class="flex justify-center my-4 sm:my-6">
+                <div class="bg-white p-3 sm:p-4 rounded-lg shadow-lg border border-amber-200 flex flex-col items-center transform hover:scale-105 transition-transform duration-300">
+                  <div class="bg-gray-100 border-2 border-dashed rounded-xl w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 flex items-center justify-center mb-2 sm:mb-3">
+                    <div class="animate-pulse">
+                      <img class='w-full h-full object-cover' src="/public/images/qrcode.jpg" alt="二维码" />
+                    </div>
+                  </div>
+                  <p class="text-xs sm:text-sm text-amber-700 font-medium">微信扫码关注 "山软华文"</p>
+                </div>
+              </div>
+      </div>
     </div>
     <script type="module">
       const form = document.getElementById('loginForm');
@@ -128,7 +139,7 @@
         e.preventDefault();
         const phone = form.phone.value;
         const password = form.password.value;
-        const res = await fetch('https://oumioumi.cn/api/auth/login', {
+        const res = await fetch('https://poem.oumioumi.cn/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ phone, password })
@@ -139,7 +150,6 @@
           // 存储isAdmin字段
           localStorage.setItem('isAdmin', data.data.user && data.data.user.isAdmin ? 'true' : 'false');
           setCookie('token', data.data.token, 7); // 写入cookie，7天有效
-          Astro.cookies.set('token', data.data.token)
           msg.style.color = '#43aa8b';
           msg.innerText = '登录成功，正在跳转...';
           setTimeout(() => { window.location.href = '/'; }, 1000);
