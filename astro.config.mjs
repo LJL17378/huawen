@@ -33,7 +33,7 @@ vite: {
       host: '0.0.0.0', // 允许外部访问
       port: 4321,
       allowedHosts: [
-        'oumioumi.cn',
+        'poem.oumioumi.cn',
         'localhost',
         '127.0.0.1'
       ]
