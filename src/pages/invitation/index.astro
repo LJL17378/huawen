@@ -1,0 +1,86 @@
+---
+    // Astro Frontmatter: 这里可以放置JavaScript/TypeScript代码
+    // 由于这是一个纯静态页面，不需要React的useState, useEffect等hook
+    // 也不需要任何与弹窗控制相关的全局函数或事件监听器。
+
+    // 移除了SVG图标的React组件定义，因为它们在Astro的frontmatter中不被支持
+    // 且在最终的静态页面中，CloseIcon不再使用，QrCodeIcon和WeChatIcon也未被实际渲染。
+---
+    <html lang="zh">
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>邀请函</title>
+      <!-- 假设你的 Astro 项目已经配置了 Tailwind CSS -->
+      <!-- 如果没有，你可能需要手动引入 Tailwind CSS 或配置 Astro 来处理它 -->
+    </head>
+    <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+      {/* 核心内容容器，移除了弹窗相关的定位和动画类 */}
+      <div class="w-full max-h-[95vh] rounded-xl overflow-hidden shadow-2xl flex flex-col bg-white">
+        {/* 顶部标题栏 */}
+        <div class="bg-gradient-to-r from-amber-900 to-amber-800 py-3 sm:py-5 px-4 sm:px-6 text-center relative flex-shrink-0">
+          <h2 class="text-lg sm:text-2xl md:text-3xl font-bold text-amber-50 tracking-wider font-serif">
+            来自诗和远方的邀请函
+          </h2>
+          {/* 关闭按钮已根据要求移除 */}
+        </div>
+
+        {/* 主要内容区域 */}
+        <div class="bg-[#f9f7f0] flex-1 overflow-y-auto border-l-4 sm:border-l-8 border-r-4 sm:border-r-8 border-amber-800/20">
+          <div class="p-4 sm:p-6 md:p-8 relative">
+            {/* 背景纹理 */}
+            <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJub25lIiBzdHJva2U9IiM4YjQ1MTMiIHN0cm9rZS13aWR0aD0iMC41IiBvcGFjaXR5PSIwLjMiLz48L3N2Z24=')]"></div>
+
+            <div class="relative z-10 space-y-3 sm:space-y-5 text-amber-900 font-serif">
+              <p class="text-lg sm:text-xl font-bold">亲爱的朋友：</p>
+
+              <p class="text-base sm:text-lg">见字如晤。</p>
+
+              <p class="text-sm sm:text-base leading-relaxed">我们是一群从顶尖学府走出的追光者，怀揣着对教育的赤诚与对文化的敬畏，踏浪而来。</p>
+
+              <p class="text-sm sm:text-base leading-relaxed">我们打造 "山软华文"文化品牌，就是希望能让每一枚汉字都跳出屏幕的禁锢，让每一组词语都绽放时代的光彩，让每一阕诗词都在代码的土壤里，长成更本真的模样。而这一切，我们希望有你的参与。</p>
+
+              <div class="h-4 sm:h-8"></div>
+
+              {/* 突出显示部分 */}
+              <div class="bg-gradient-to-r from-amber-800/5 to-amber-900/5 p-3 sm:p-6 border-l-4 border-amber-800 text-center shadow-inner rounded-lg">
+                <p class="text-base sm:text-xl font-bold mb-2 leading-tight">现在，诚挚邀请你微信搜索、关注 "山软华文" 服务号并后台私信</p>
+                <p class="text-sm sm:text-lg font-semibold leading-tight text-amber-800">——前 2000 名用户将免费获得股东帐号，即刻加入 "朝歌华文" 服务圈！</p>
+              </div>
+
+              <div class="h-4 sm:h-8"></div>
+
+              <p class="text-sm sm:text-base leading-relaxed">这不仅是一场穿越古今的至尊文化体验，更是一次与千年文脉共舞的机遇 —— 在这里，传统与未来撞出星火，每一次阅读都是与先贤的对话，每一次书写都是为文明续上新的注脚。</p>
+
+              <p class="text-sm sm:text-base leading-relaxed">别等了，让我们一起，让华文在数字时代，活得热气腾腾！</p>
+
+              {/* 二维码区域 */}
+              <div class="flex justify-center my-4 sm:my-6">
+                <div class="bg-white p-3 sm:p-4 rounded-lg shadow-lg border border-amber-200 flex flex-col items-center transform hover:scale-105 transition-transform duration-300">
+                  <div class="bg-gray-100 border-2 border-dashed rounded-xl w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 flex items-center justify-center mb-2 sm:mb-3">
+                    <div class="animate-pulse">
+                      {/* 图片路径已调整为 Astro 项目中 public 目录的相对路径 */}
+                      <img class='w-full h-full object-cover' src="/images/qrcode.jpg" alt="二维码" />
+                    </div>
+                  </div>
+                  <p class="text-xs sm:text-sm text-amber-700 font-medium">微信扫码关注 "山软华文"</p>
+                </div>
+              </div>
+
+              {/* 签名 */}
+              <div class="text-right mt-6 sm:mt-8">
+                <p class="text-lg sm:text-xl font-bold italic text-amber-800">山软华文团队</p>
+                <p class="text-sm sm:text-lg text-amber-700">2025年7月20日</p>
+              </div>
+            </div>
+          </div>
+          {/* 底部按钮 */}
+    <div class="bg-amber-800/5 py-5 px-6 border-t border-amber-800/20 text-center">
+      <button class="bg-gradient-to-r from-amber-800 to-amber-900 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center mx-auto">
+        <a class="ml-2" href="/login">前往登录</span>
+      </button>
+    </div>
+        </div>
+      </div>
+    </body>
+    </html>
