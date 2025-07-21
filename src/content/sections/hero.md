@@ -1,9 +1,9 @@
 ---
 enable: true
 # title: "朝歌华文，古诗词的数字桃源"
-title: "古韵今风，海棠诗梦间"
+title: "山软华文·朝歌诗词"
 # description: "当科技与艺术融合，诗词创作从此变得更有趣"
-description: "当科技与艺术融合，诗词创作从此变得更有趣"
+description: "笔底藏尽山河色，行间长流古今声"
 image: "@/assets/hero.png"
 
 primaryButton:
